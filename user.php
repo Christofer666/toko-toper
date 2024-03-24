@@ -1,15 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User</title>
+    <style>
+        body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: url('https://i.pinimg.com/originals/b3/26/51/b326517cd8ca44b939a1bee41a7f103c.gif') center center fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+header {
+    color: white;
+    padding: 20px;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 40px;
+    backdrop-filter: blur(2px); /* Add a blur effect to the background */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: center;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.action-buttons {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+button, .action-buttons a {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover, .action-buttons a:hover {
+    background-color: #45a049;
+    text-decoration: none; /* Add this to remove underline from the anchor tag */
+}
+
+
+    </style>
 </head>
 
 <body>
     <?php include "menu.php"; ?>
 
+
     <?php
-    if ($_SESSION["level"] != "admin") {
+    if ($_SESSION["level"] != "Admin") {
         echo "Anda tidak dapat mengakses halaman ini";
         exit;
     }
@@ -20,18 +94,20 @@
     $query = mysqli_query($koneksi, $sql);
     ?>
 
-    <div>
-        <h1>Data User</h1>
-        <form action="new-user.php" method="GET">
+    <div class="container">
+        <h1>Data Pengguna</h1>
+        <form action="new-user.php" method="GET" class="action-buttons">
             <button type="submit">Tambah</button>
+            <button><a target="_blank" href="cetak-user.php">Cetak</a></button>
         </form>
+        
         <table border="1">
             <tr>
                 <th>No.</th>
-                <th>Username</th>
-                <th>Level</th>
-                <th>Dibuat pada</th>
-                <th>Diubah pada</th>
+                <th>Nama</th>
+                <th>Tingkat</th>
+                <th>Dibuat tgl.</th>
+                <th>Diubah tgl.</th>
                 <th colspan="2">Aksi</th>
             </tr>
             <?php $i = 1; ?>
@@ -51,7 +127,7 @@
                     <td>
                         <form action="delete-user.php" method="POST" onsubmit="return konfirmasi(this)">
                             <input type="hidden" name="id" value='<?= $user["id"] ?>'>
-                            <button type="submit">Delete</button>
+                            <button type="submit">Hapus</button>
                         </form>
                     </td>
                 </tr>
